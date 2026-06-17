@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:api.anthropic.com)",
+      "Bash(curl -sSL -i \"https://api.anthropic.com/v1/design/h/FI3Jmhx-zdy7EpVffsmbdA\")",
+      "Bash(curl -sS -o /dev/null -w \"%{http_code}\\\\n\" -H \"Accept: text/html\" -H \"User-Agent: Mozilla/5.0\" \"https://api.anthropic.com/v1/design/h/FI3Jmhx-zdy7EpVffsmbdA?open_file=Tornado+Gallery.dc.html\")",
+      "Bash(mkdir -p assets)",
+      "Bash(cp \"/c/Users/micro/.claude/projects/c--dev-projects-tornado-gallery-site/e3f956fa-01d5-4f25-85dd-3aaf1ac59f0e/tool-results/extracted/tornado-gallery-website-design/project/assets/logo.png\" assets/logo.png)",
+      "Bash(flutter --version)",
+      "PowerShell(flutter pub get)",
+      "PowerShell(flutter analyze 2>&1)",
+      "PowerShell(flutter build web --no-tree-shake-icons 2>&1)",
+      "Bash(file web/favicon.png assets/logo.png web/icons/*)",
+      "Bash(identify web/favicon.png assets/logo.png web/icons/*)",
+      "Bash(python -c \"from PIL import Image; import glob; [print\\(f, Image.open\\(f\\).size\\) for f in ['web/favicon.png','assets/logo.png']+glob.glob\\('web/icons/*'\\)]\")",
+      "Bash(python -c ' *)"
+    ]
+  }
+}
