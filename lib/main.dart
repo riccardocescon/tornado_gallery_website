@@ -197,6 +197,9 @@ class _TornadoGallerySiteState extends State<TornadoGallerySite> {
               controller: _scroll,
               child: SingleChildScrollView(
                 controller: _scroll,
+                physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics(),
+                ),
                 child: DefaultTextStyle(
                   style: plex(color: palette.text),
                   child: const _Page(),
