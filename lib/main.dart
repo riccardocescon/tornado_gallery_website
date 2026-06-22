@@ -775,7 +775,7 @@ class _Hero extends StatelessWidget {
           constraints: const BoxConstraints(maxWidth: 520),
           child: Text(
             'Tornado Gallery visually encrypts your images into harmless-looking '
-            'glitch. Only your password brings them back — pixel-perfect.',
+            'glitch. Only your password brings them back, pixel-perfect.',
             style: plex(size: 18.5, color: p.muted, height: 1.6),
           ),
         ),
@@ -1346,7 +1346,7 @@ class _HowSection extends StatelessWidget {
     (
       '3',
       'Get glitched images',
-      'The app encrypts byte by byte and outputs files that look like noise — with zero metadata.',
+      'The app encrypts byte by byte and outputs files that look like noise, with zero metadata.',
     ),
     (
       '4',
@@ -1378,7 +1378,7 @@ class _HowSection extends StatelessWidget {
               title: 'Encrypt to glitch. Decrypt to perfect.',
               body:
                   'A password drives a byte-by-byte cipher across the image. The result is a file that '
-                  'looks like noise — until the same password rebuilds the original, pixel for pixel.',
+                  'looks like noise, until the same password rebuilds the original, pixel for pixel.',
             ),
           ),
           const SizedBox(height: 46),
@@ -1728,12 +1728,12 @@ class _FeaturesSection extends StatelessWidget {
   static const _items = <(String, String, _IconShape)>[
     (
       'Visual encryption',
-      'Encrypted images render as harmless glitch — nothing recognizable in your gallery or anyone’s scanner.',
+      'Encrypted images render as harmless glitch, nothing recognizable in your gallery or anyone’s scanner.',
       _IconShape.diamondFill,
     ),
     (
       'Byte-level cipher',
-      'Your password drives the cipher across every byte of the image. Not a filter — real encryption.',
+      'Your password drives the cipher across every byte of the image. Not a filter. Real encryption.',
       _IconShape.ringAmber,
     ),
     (
@@ -1743,17 +1743,17 @@ class _FeaturesSection extends StatelessWidget {
     ),
     (
       '100% local',
-      'All processing happens on-device. No servers, no accounts, no uploads — ever.',
+      'All processing happens on-device. No servers, no accounts, no uploads... ever.',
       _IconShape.circleAmber,
     ),
     (
       'Lossless recovery',
-      'The same password regenerates the exact original — no compression, no quality loss.',
+      'The same password regenerates the exact original, no compression, no quality loss.',
       _IconShape.diamondRing,
     ),
     (
       'Open source',
-      'The code is open and auditable. Free for personal use — verify it, then trust it.',
+      'The code is open and auditable. Free for personal use, verify it, then trust it.',
       _IconShape.barAmber,
     ),
   ];
