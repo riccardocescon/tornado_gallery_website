@@ -130,17 +130,30 @@ class SiteScope extends InheritedWidget {
   final Palette palette;
   final VoidCallback toggleTheme;
   final RevealHub revealHub;
+  final Map<String, GlobalKey> sectionKeys;
 
   const SiteScope({
     super.key,
     required this.palette,
     required this.toggleTheme,
     required this.revealHub,
+    required this.sectionKeys,
     required super.child,
   });
 
   static SiteScope of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<SiteScope>()!;
+
+  /// Smooth-scrolls the viewport so the section tagged [label] is in view.
+  void scrollToSection(String label) {
+    final ctx = sectionKeys[label]?.currentContext;
+    if (ctx == null) return;
+    Scrollable.ensureVisible(
+      ctx,
+      duration: const Duration(milliseconds: 600),
+      curve: Curves.easeInOutCubic,
+    );
+  }
 
   @override
   bool updateShouldNotify(SiteScope old) => old.palette != palette;
@@ -164,6 +177,11 @@ class _TornadoGallerySiteState extends State<TornadoGallerySite> {
   bool _dark = true;
   final _scroll = ScrollController();
   final _revealHub = RevealHub();
+  final _sectionKeys = <String, GlobalKey>{
+    'Why': GlobalKey(),
+    'How it works': GlobalKey(),
+    'Features': GlobalKey(),
+  };
 
   void _toggleTheme() => setState(() => _dark = !_dark);
 
@@ -185,6 +203,7 @@ class _TornadoGallerySiteState extends State<TornadoGallerySite> {
         palette: palette,
         toggleTheme: _toggleTheme,
         revealHub: _revealHub,
+        sectionKeys: _sectionKeys,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 450),
           color: palette.bg,
@@ -364,16 +383,17 @@ class _Page extends StatelessWidget {
   const _Page();
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    final keys = SiteScope.of(context).sectionKeys;
+    return Column(
       children: [
-        _Nav(),
-        _Hero(),
-        _ProblemSection(),
-        _HowSection(),
-        _FeaturesSection(),
-        _PrivacyBand(),
-        _DownloadCta(),
-        _Footer(),
+        const _Nav(),
+        const _Hero(),
+        KeyedSubtree(key: keys['Why'], child: const _ProblemSection()),
+        KeyedSubtree(key: keys['How it works'], child: const _HowSection()),
+        KeyedSubtree(key: keys['Features'], child: const _FeaturesSection()),
+        const _PrivacyBand(),
+        const _DownloadCta(),
+        const _Footer(),
       ],
     );
   }
@@ -506,24 +526,28 @@ class _NavLinkState extends State<_NavLink> {
   bool _h = false;
   @override
   Widget build(BuildContext context) {
-    final p = SiteScope.of(context).palette;
+    final scope = SiteScope.of(context);
+    final p = scope.palette;
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       onEnter: (_) => setState(() => _h = true),
       onExit: (_) => setState(() => _h = false),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 150),
-        padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 9),
-        decoration: BoxDecoration(
-          color: _h ? p.surface : Colors.transparent,
-          borderRadius: BorderRadius.circular(9),
-        ),
-        child: Text(
-          widget.label,
-          style: plex(
-            size: 14.5,
-            weight: FontWeight.w500,
-            color: _h ? p.text : p.muted,
+      child: GestureDetector(
+        onTap: () => scope.scrollToSection(widget.label),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 9),
+          decoration: BoxDecoration(
+            color: _h ? p.surface : Colors.transparent,
+            borderRadius: BorderRadius.circular(9),
+          ),
+          child: Text(
+            widget.label,
+            style: plex(
+              size: 14.5,
+              weight: FontWeight.w500,
+              color: _h ? p.text : p.muted,
+            ),
           ),
         ),
       ),
@@ -1246,6 +1270,10 @@ class _ProblemSection extends StatelessWidget {
     (
       'Hidden metadata',
       'Every image carries where, when and on what device it was taken — long after you’ve forgotten.',
+    ),
+    (
+      'Lost or stolen phone',
+      'If your device goes missing, whoever finds it can scroll your whole gallery. Encrypted photos stay unreadable noise to them.',
     ),
   ];
   @override
